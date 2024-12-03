@@ -11,6 +11,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { Progress } from "@/components/ui/progress";
+
 // import { LineChart } from "@/app/lineChart/page";
 
 export default function SideNav() {
@@ -158,7 +160,7 @@ const Dashboard = () => {
           </div>
         </div>
         {/* Quick Statistics Section */}
-        <div className="col-span-6 row-span-4 rounded-lg p-4">
+        <div className="col-span-6 row-span-3 rounded-lg p-4">
           {/* Placeholder for Skill Test Info */}
           <div className="h-full w-full animate-pulse">
             <figure
@@ -169,20 +171,61 @@ const Dashboard = () => {
                 "transform-gpu dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]"
               )}
             >
-              <div className="flex flex-row items-center gap-3">
-                <div className="flex flex-col overflow-hidden">
-                  <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white">
-                    <span className="text-xl sm:text-2xl font-bold">
-                      Quick Statistics
-                    </span>
-                  </figcaption>
+              <div className="flex flex-col items-start gap-8 w-full h-full">
+                {" "}
+                {/* Increased gap here */}
+                {/* Title */}
+                <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white">
+                  <span className="text-xl sm:text-2xl font-bold">
+                    Syllabus Wise Analysis
+                  </span>
+                </figcaption>
+                {/* Progress Bars */}
+                <div className="space-y-8 w-full">
+                  {" "}
+                  {/* Increased space-y here */}
+                  {[
+                    {
+                      label: "HTML Tools, Forms, History",
+                      value: 80,
+                      color: "blue",
+                    },
+                    {
+                      label: "Tags & References in HTML",
+                      value: 60,
+                      color: "orange",
+                    },
+                    {
+                      label: "Tables & References in HTML",
+                      value: 24,
+                      color: "red",
+                    },
+                    {
+                      label: "Tables & CSS Basics",
+                      value: 94,
+                      color: "green",
+                    },
+                  ].map(({ label, value, color }, index) => (
+                    <div key={index} className="flex flex-col w-full">
+                      <span className="text-lg text-gray-500 font-semibold mb-3">
+                        {" "}
+                        {/* Increased margin here */}
+                        {label}
+                      </span>
+                      <div className="relative pt-1 w-full">
+                        <Progress value={value} color={color} />{" "}
+                        {/* Pass the color and value */}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </figure>
           </div>
         </div>
+
         {/* Syllabus Wise Analysis Section */}
-        <div className="col-span-6 row-span-2 rounded-lg p-4">
+        <div className="col-span-6 row-span-1 rounded-lg p-4">
           {/* Placeholder for Skill Test Info */}
           <div className="h-full w-full animate-pulse">
             <figure
@@ -193,18 +236,70 @@ const Dashboard = () => {
                 "transform-gpu dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]"
               )}
             >
-              <div className="flex flex-row items-center gap-3">
-                <div className="flex flex-col overflow-hidden">
-                  <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white">
-                    <span className="text-xl sm:text-2xl font-bold">
-                      Quick Statistics
-                    </span>
-                  </figcaption>
+              <div className="flex flex-col items-start gap-6 w-full h-full">
+                {/* Title */}
+                <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white">
+                  <span className="text-xl sm:text-2xl font-bold">
+                    Quick Statistics
+                  </span>
+                </figcaption>
+
+                {/* Progress Bars */}
+                <div className="flex w-full justify-between gap-4">
+                  {[
+                    {
+                      label: "Your Rank",
+                      value: "#5",
+                      color: "blue",
+                      image: "/html-logo.svg",
+                    },
+                    {
+                      label: "Percentile",
+                      value: "98%",
+                      color: "orange",
+                      image: "/path-to-your-image.jpg",
+                    },
+                    {
+                      label: "Correct Answers",
+                      value: "120",
+                      color: "green",
+                      image: "/path-to-your-image.jpg",
+                    },
+                  ].map(({ label, value, color, image }, index) => (
+                    <div key={index} className="flex items-center w-full">
+                      {/* Left: Image */}
+                      <div className="bg-gray-300 rounded-full p-4">
+                        <img
+                          src={image}
+                          alt={label}
+                          className="w-16 h-16 rounded-full"
+                        />
+                      </div>
+
+                      {/* Right: Content */}
+                      <div className="ml-4 flex flex-col items-start">
+                        <div className="font-black text-2xl text-black">
+                          {value}
+                        </div>{" "}
+                        {/* Value */}
+                        <div className="text-gray-500 text-sm">
+                          {label}
+                        </div>{" "}
+                        {/* Label */}
+                      </div>
+
+                      {/* Pipe Separator */}
+                      {index < 2 && (
+                        <div className="mx-4 text-gray-500 text-xl">|</div>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
             </figure>
           </div>
         </div>
+
         {/* Comparison Graph Section */}
         <div className="col-span-6 row-span-3 rounded-lg p-4">
           {/* Placeholder for Skill Test Info */}
@@ -221,7 +316,7 @@ const Dashboard = () => {
                 <div className="flex flex-col overflow-hidden">
                   <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white">
                     <span className="text-xl sm:text-2xl font-bold">
-                      Quick Statistics
+                      Comparison Graph
                     </span>
                   </figcaption>
                 </div>
@@ -230,7 +325,7 @@ const Dashboard = () => {
           </div>
         </div>
         {/* Question Analysis Section */}
-        <div className="col-span-6 row-span-2 rounded-lg p-4">
+        <div className="col-span-6 row-span-3 rounded-lg p-4">
           {/* Placeholder for Skill Test Info */}
           <div className="h-full w-full animate-pulse">
             <figure
@@ -245,7 +340,7 @@ const Dashboard = () => {
                 <div className="flex flex-col overflow-hidden">
                   <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white">
                     <span className="text-xl sm:text-2xl font-bold">
-                      Quick Statistics
+                      Question Analysis
                     </span>
                   </figcaption>
                 </div>
