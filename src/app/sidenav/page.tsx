@@ -2,18 +2,20 @@
 import React, { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import {
-  IconArrowLeft,
   IconBrandTabler,
-  IconSettings,
   IconUserBolt,
+  IconSettings,
+  IconArrowLeft,
+  IconAward,
+  IconFileText,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
-
-// import { LineChart } from "@/app/lineChart/page";
+import { PieChart } from "@/components/ui/piechart";
+import { LineGraph } from "@/components/ui/linegraph";
 
 export default function SideNav() {
   const links = [
@@ -22,6 +24,20 @@ export default function SideNav() {
       href: "#",
       icon: (
         <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Skill Test",
+      href: "#",
+      icon: (
+        <IconAward className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Internship",
+      href: "#",
+      icon: (
+        <IconFileText className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
@@ -46,6 +62,7 @@ export default function SideNav() {
       ),
     },
   ];
+
   const [open, setOpen] = useState(false);
   return (
     <div
@@ -67,7 +84,7 @@ export default function SideNav() {
           <div>
             <SidebarLink
               link={{
-                label: "Manu Arora",
+                label: "Rahil Siddique",
                 href: "#",
                 icon: (
                   <Image
@@ -93,13 +110,21 @@ export const Logo = () => {
       href="#"
       className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
-      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+      {/* Logo image from public directory */}
+      <div className="flex-shrink-0">
+        <img
+          src="/whatbyte-logo.avif" // Logo image located in the public directory
+          alt="Logo"
+          className="h-5 w-6" // Set the desired size for your logo
+        />
+      </div>
+      {/* Text "WhatBytes" */}
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="font-medium text-black dark:text-white whitespace-pre"
       >
-        Acet Labs
+        WhatBytes
       </motion.span>
     </Link>
   );
@@ -110,7 +135,16 @@ export const LogoIcon = () => {
       href="#"
       className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
-      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+      {/* Logo image from public directory */}
+      <div className="flex-shrink-0">
+        <img
+          src="/whatbyte-logo.avif" // Logo image located in the public directory
+          alt="Logo"
+          className="h-5 w-6" // Set the desired size for your logo
+        />
+      </div>
+      {/* Existing logo icon, could be a placeholder or custom element */}
+      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm" />
     </Link>
   );
 };
@@ -251,29 +285,25 @@ const Dashboard = () => {
                       label: "Your Rank",
                       value: "#5",
                       color: "blue",
-                      image: "/html-logo.svg",
+                      image: "🏆",
                     },
                     {
                       label: "Percentile",
                       value: "98%",
                       color: "orange",
-                      image: "/path-to-your-image.jpg",
+                      image: "📋",
                     },
                     {
                       label: "Correct Answers",
-                      value: "120",
+                      value: "10/15",
                       color: "green",
-                      image: "/path-to-your-image.jpg",
+                      image: "✅",
                     },
                   ].map(({ label, value, color, image }, index) => (
                     <div key={index} className="flex items-center w-full">
                       {/* Left: Image */}
                       <div className="bg-gray-300 rounded-full p-4">
-                        <img
-                          src={image}
-                          alt={label}
-                          className="w-16 h-16 rounded-full"
-                        />
+                        {image}
                       </div>
 
                       {/* Right: Content */}
@@ -290,7 +320,7 @@ const Dashboard = () => {
 
                       {/* Pipe Separator */}
                       {index < 2 && (
-                        <div className="mx-4 text-gray-500 text-xl">|</div>
+                        <div className="mx-12 text-gray-300 text-5xl">|</div>
                       )}
                     </div>
                   ))}
@@ -302,47 +332,85 @@ const Dashboard = () => {
 
         {/* Comparison Graph Section */}
         <div className="col-span-6 row-span-3 rounded-lg p-4">
-          {/* Placeholder for Skill Test Info */}
-          <div className="h-full w-full animate-pulse">
+          <div className="h-full w-full">
             <figure
               className={cn(
-                "relative mx-auto min-h-fit w-full h-full cursor-pointer overflow-hidden rounded-2xl p-4",
+                "relative mx-auto min-h-fit w-full h-full overflow-hidden rounded-2xl p-4",
                 "transition-all duration-200 ease-in-out hover:scale-[103%]",
                 "bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]",
                 "transform-gpu dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]"
               )}
             >
-              <div className="flex flex-row items-center gap-3">
-                <div className="flex flex-col overflow-hidden">
-                  <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white">
-                    <span className="text-xl sm:text-2xl font-bold">
-                      Comparison Graph
-                    </span>
-                  </figcaption>
-                </div>
+              {/* Circle in top-right corner */}
+              <div className="absolute top-4 right-4 bg-gray-200 rounded-full h-10 w-10 flex items-center justify-center">
+                <span className="text-sm font-bold text-gray-700">📈</span>
+              </div>
+
+              {/* Title and Description */}
+              <div className="flex flex-col gap-2 text-left">
+                <figcaption className="text-lg font-medium dark:text-white">
+                  <span className="text-xl sm:text-2xl font-bold">
+                    Comparison Graph
+                  </span>
+                </figcaption>
+                <p className="text-sm text-gray-500">
+                  <b>You scored 30% percentile</b> which is lower than the
+                  <br />
+                  average percentile 72% of all the engineers who took this
+                  assessment.
+                </p>
+              </div>
+
+              {/* Line Graph */}
+              <div className="h-full w-full mt-6">
+                <LineGraph />{" "}
+                {/* This component will now expand to fill the row-span-3 space */}
               </div>
             </figure>
           </div>
         </div>
+
         {/* Question Analysis Section */}
         <div className="col-span-6 row-span-3 rounded-lg p-4">
-          {/* Placeholder for Skill Test Info */}
-          <div className="h-full w-full animate-pulse">
+          <div className="h-full w-full">
             <figure
               className={cn(
-                "relative mx-auto min-h-fit w-full h-full cursor-pointer overflow-hidden rounded-2xl p-4",
+                "relative mx-auto min-h-fit w-full h-full overflow-hidden rounded-2xl p-4",
                 "transition-all duration-200 ease-in-out hover:scale-[103%]",
                 "bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]",
                 "transform-gpu dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]"
               )}
             >
-              <div className="flex flex-row items-center gap-3">
-                <div className="flex flex-col overflow-hidden">
-                  <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white">
-                    <span className="text-xl sm:text-2xl font-bold">
-                      Question Analysis
-                    </span>
-                  </figcaption>
+              <div className="flex flex-col justify-between w-full h-full">
+                {/* Top Section */}
+                <div className="flex justify-between items-start">
+                  {/* Left: Question Analysis and Description */}
+                  <div>
+                    <figcaption className="text-lg font-medium dark:text-white">
+                      <span className="text-xl sm:text-2xl font-bold">
+                        Question Analysis
+                      </span>
+                    </figcaption>
+                    <div className="text-sm text-gray-500 mt-2">
+                      <b>You scored 10 questions correct out of 15.</b> However,
+                      it still <br />
+                      needs some improvements.
+                    </div>
+                  </div>
+
+                  {/* Right: Score */}
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-blue-600">
+                      12/15
+                    </div>
+                  </div>
+                </div>
+
+                {/* PieChart */}
+                <div className="flex justify-center items-center flex-grow mt-4">
+                  <div className="w-[220px] h-[220px] sm:w-[280px] sm:h-[280px]">
+                    <PieChart />
+                  </div>
                 </div>
               </div>
             </figure>
