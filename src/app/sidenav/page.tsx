@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import {
   IconBrandTabler,
@@ -144,6 +144,32 @@ export const LogoIcon = () => {
 
 // Dashboard Sidebar open
 const Dashboard = () => {
+  const [scores, setScores] = useState({
+    rank: 0,
+    percentile: 0,
+    currentScore: 0,
+  });
+
+  useEffect(() => {
+    const fetchScores = async () => {
+      try {
+        const response = await fetch("/api/scores");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        if (data && data.data[0]) {
+          setScores(data.data[0]);
+        }
+      } catch (error) {
+        console.error("Error fetching scores:", error);
+        // Optionally update UI to show an error message or fallback UI
+      }
+    };
+
+    fetchScores();
+  }, []);
+
   const [isModalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => setModalOpen(true);
@@ -214,36 +240,34 @@ const Dashboard = () => {
                   </span>
                 </figcaption>
                 <div className="space-y-8 w-full">
-                  {" "}
                   {[
                     {
                       label: "HTML Tools, Forms, History",
                       value: 80,
-                      color: "blue",
+                      color: "blue" as const,
                     },
                     {
                       label: "Tags & References in HTML",
                       value: 60,
-                      color: "orange",
+                      color: "orange" as const,
                     },
                     {
                       label: "Tables & References in HTML",
                       value: 24,
-                      color: "red",
+                      color: "red" as const,
                     },
                     {
                       label: "Tables & CSS Basics",
                       value: 94,
-                      color: "green",
+                      color: "green" as const,
                     },
                   ].map(({ label, value, color }, index) => (
                     <div key={index} className="flex flex-col w-full">
                       <span className="text-lg text-gray-500 font-semibold mb-3">
-                        {" "}
                         {label}
                       </span>
                       <div className="relative pt-1 w-full">
-                        <Progress value={value} color={color} />{" "}
+                        <Progress value={value} color={color} />
                       </div>
                     </div>
                   ))}
@@ -275,19 +299,19 @@ const Dashboard = () => {
                   {[
                     {
                       label: "Your Rank",
-                      value: "#5",
+                      value: `#${scores.rank}`,
                       color: "blue",
                       image: "🏆",
                     },
                     {
                       label: "Percentile",
-                      value: "98%",
+                      value: `${scores.percentile}%`,
                       color: "orange",
                       image: "📋",
                     },
                     {
                       label: "Correct Answers",
-                      value: "10/15",
+                      value: `${scores.currentScore}/15`,
                       color: "green",
                       image: "✅",
                     },
@@ -350,7 +374,7 @@ const Dashboard = () => {
               </div>
 
               <div className="h-full w-full mt-6">
-                <LineGraph />{" "}
+                <LineGraph />
               </div>
             </figure>
           </div>
@@ -384,7 +408,7 @@ const Dashboard = () => {
 
                   <div className="text-right">
                     <div className="text-2xl font-bold text-blue-600">
-                      12/15
+                      {scores.currentScore}/15
                     </div>
                   </div>
                 </div>

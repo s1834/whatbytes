@@ -7,6 +7,10 @@ import {
   LinearScale,
   Tooltip,
   Legend,
+  ChartEvent,
+  ActiveElement,
+  TooltipItem,
+  ChartOptions, // Import ChartOptions directly
 } from "chart.js";
 import annotationPlugin from "chartjs-plugin-annotation";
 
@@ -41,7 +45,8 @@ export function LineGraph() {
     ],
   };
 
-  const options = {
+  // Use ChartOptions directly
+  const options: ChartOptions<"line"> = {
     responsive: true,
     scales: {
       x: {
@@ -67,7 +72,7 @@ export function LineGraph() {
       tooltip: {
         intersect: false,
         callbacks: {
-          label: function (context) {
+          label: function (context: TooltipItem<"line">) {
             return `${context.raw} students`;
           },
         },
@@ -82,7 +87,6 @@ export function LineGraph() {
             borderWidth: 2,
             label: {
               content: "Your Percentile",
-              enabled: true,
               position: "end",
               backgroundColor: "red",
               color: "white",
@@ -94,16 +98,9 @@ export function LineGraph() {
         },
       },
     },
-    hover: {
+    interaction: {
       mode: "nearest",
       intersect: false,
-      onHover: (event, chartElement) => {
-        if (chartElement && chartElement.length) {
-          const index = chartElement[0].index;
-          chartElement[0].element.backgroundColor = "#4b6cb7";
-          chartElement[0].element.borderColor = "#1E3A8A";
-        }
-      },
     },
   };
 
