@@ -9,8 +9,8 @@ export function PieChart() {
     datasets: [
       {
         label: "Question Accuracy",
-        data: [12, 3], // 12 correct and 3 incorrect (12/15)
-        backgroundColor: ["#93C5FD", "#1E3A8A"], // Dark blue for correct, light blue for incorrect
+        data: [12, 3],
+        backgroundColor: ["#93C5FD", "#1E3A8A"],
       },
     ],
   };
@@ -27,9 +27,26 @@ export function PieChart() {
     },
   };
 
+  const centerTextPlugin = {
+    id: "centerText",
+    beforeDraw(chart) {
+      const { width, height } = chart;
+      const ctx = chart.ctx;
+      const text = "🎯";
+
+      ctx.save();
+      ctx.font = "48px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = "#000";
+      ctx.fillText(text, width / 2, height / 2);
+      ctx.restore();
+    },
+  };
+
   return (
     <>
-      <Doughnut data={data} options={options} />
+      <Doughnut data={data} options={options} plugins={[centerTextPlugin]} />
     </>
   );
 }

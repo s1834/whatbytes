@@ -22,20 +22,21 @@ ChartJS.register(
 
 export function LineGraph() {
   const data = {
-    labels: ["0", "25", "50", "75", "100"], // Percentile values
+    labels: ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"],
     datasets: [
       {
-        label: "", // No legend
-        data: [200, 350, 400, 450, 500], // Example data
+        label: "",
+        data: [0, 35, 40, 30, 37, 45, 50, 60, 52, 45, 35],
         borderColor: "#4b6cb7",
         backgroundColor: "transparent",
         tension: 0.4,
         pointRadius: 6,
-        pointHoverRadius: 8, // Larger radius on hover
+        pointHoverRadius: 8,
         pointBackgroundColor: "#fff",
         pointBorderColor: "#4b6cb7",
-        pointHoverBackgroundColor: "#1E3A8A", // Dark blue on hover
+        pointHoverBackgroundColor: "#1E3A8A",
         pointHoverBorderColor: "#1E3A8A",
+        fill: false,
       },
     ],
   };
@@ -45,28 +46,28 @@ export function LineGraph() {
     scales: {
       x: {
         title: {
-          display: false, // Removed "Percentile" text
+          display: false,
         },
         grid: {
-          display: false, // Remove gridlines
+          display: false,
         },
       },
       y: {
-        display: false, // Hide Y-axis numbering
+        display: false,
         beginAtZero: true,
         grid: {
-          display: false, // Remove gridlines
+          display: false,
         },
       },
     },
     plugins: {
       legend: {
-        display: false, // No legend
+        display: false,
       },
       tooltip: {
         intersect: false,
         callbacks: {
-          label: function (context: any) {
+          label: function (context) {
             return `${context.raw} students`;
           },
         },
@@ -76,11 +77,11 @@ export function LineGraph() {
           userPercentile: {
             type: "line",
             scaleID: "x",
-            value: 1.2, // Set to 30% between 0 and 50 on the X-axis
+            value: 1.2,
             borderColor: "red",
             borderWidth: 2,
             label: {
-              content: "Your Percentile", // Display "Your Percentile" on the line
+              content: "Your Percentile",
               enabled: true,
               position: "end",
               backgroundColor: "red",
@@ -94,8 +95,15 @@ export function LineGraph() {
       },
     },
     hover: {
-      mode: "index",
+      mode: "nearest",
       intersect: false,
+      onHover: (event, chartElement) => {
+        if (chartElement && chartElement.length) {
+          const index = chartElement[0].index;
+          chartElement[0].element.backgroundColor = "#4b6cb7";
+          chartElement[0].element.borderColor = "#1E3A8A";
+        }
+      },
     },
   };
 

@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
 import { PieChart } from "@/components/ui/piechart";
 import { LineGraph } from "@/components/ui/linegraph";
+import { UpdateScores } from "@/components/ui/updateScores";
 
 export default function SideNav() {
   const links = [
@@ -64,11 +65,12 @@ export default function SideNav() {
   ];
 
   const [open, setOpen] = useState(false);
+
   return (
     <div
       className={cn(
         "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden",
-        "h-screen" // for your use case, use `h-screen` instead of `h-[60vh]`
+        "h-screen"
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
@@ -104,21 +106,17 @@ export default function SideNav() {
     </div>
   );
 }
+
+// WhatByte Logo on sidebar open
 export const Logo = () => {
   return (
     <Link
       href="#"
       className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
-      {/* Logo image from public directory */}
       <div className="flex-shrink-0">
-        <img
-          src="/whatbyte-logo.avif" // Logo image located in the public directory
-          alt="Logo"
-          className="h-5 w-6" // Set the desired size for your logo
-        />
+        <img src="/whatbyte-logo.avif" alt="Logo" className="h-5 w-6" />
       </div>
-      {/* Text "WhatBytes" */}
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -129,35 +127,33 @@ export const Logo = () => {
     </Link>
   );
 };
+
+// WhatByte Logo on sidebar close
 export const LogoIcon = () => {
   return (
     <Link
       href="#"
       className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
-      {/* Logo image from public directory */}
       <div className="flex-shrink-0">
-        <img
-          src="/whatbyte-logo.avif" // Logo image located in the public directory
-          alt="Logo"
-          className="h-5 w-6" // Set the desired size for your logo
-        />
+        <img src="/whatbyte-logo.avif" alt="Logo" className="h-5 w-6" />
       </div>
-      {/* Existing logo icon, could be a placeholder or custom element */}
-      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm" />
     </Link>
   );
 };
 
-// Dummy dashboard component with content
+// Dashboard Sidebar open
 const Dashboard = () => {
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => setModalOpen(true);
+  const handleCloseModal = () => setModalOpen(false);
   return (
     <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-4 w-full h-full">
       {/* Grid layout */}
       <div className="grid grid-cols-12 grid-rows-6 gap-4 flex-1">
-        {/* Top-left Section */}
+        {/* HTML Section */}
         <div className="col-span-6 row-span-1 rounded-lg p-4">
-          {/* Placeholder for Skill Test Info */}
           <div className="h-full w-full animate-pulse">
             <figure
               className={cn(
@@ -172,8 +168,8 @@ const Dashboard = () => {
                   <Image
                     src="/html-logo.svg"
                     alt="HTML Logo"
-                    width={98} // Adjust width as needed
-                    height={98} // Adjust height as needed
+                    width={98}
+                    height={98}
                   />
                 </div>
                 <div className="flex flex-col overflow-hidden">
@@ -187,12 +183,17 @@ const Dashboard = () => {
                   </p>
                 </div>
               </div>
-              <button className="absolute top-1/2 right-4 transform -translate-y-1/2 px-6 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-900 transition-colors">
+              <button
+                className="absolute top-1/2 right-4 transform -translate-y-1/2 px-6 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-900 transition-colors"
+                onClick={handleOpenModal}
+              >
                 Update
               </button>
             </figure>
           </div>
+          <UpdateScores isOpen={isModalOpen} onClose={handleCloseModal} />
         </div>
+
         {/* Quick Statistics Section */}
         <div className="col-span-6 row-span-3 rounded-lg p-4">
           {/* Placeholder for Skill Test Info */}
@@ -206,18 +207,14 @@ const Dashboard = () => {
               )}
             >
               <div className="flex flex-col items-start gap-8 w-full h-full">
-                {" "}
-                {/* Increased gap here */}
-                {/* Title */}
+                {/* Syllabus Wise Analysis */}
                 <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white">
                   <span className="text-xl sm:text-2xl font-bold">
                     Syllabus Wise Analysis
                   </span>
                 </figcaption>
-                {/* Progress Bars */}
                 <div className="space-y-8 w-full">
                   {" "}
-                  {/* Increased space-y here */}
                   {[
                     {
                       label: "HTML Tools, Forms, History",
@@ -243,12 +240,10 @@ const Dashboard = () => {
                     <div key={index} className="flex flex-col w-full">
                       <span className="text-lg text-gray-500 font-semibold mb-3">
                         {" "}
-                        {/* Increased margin here */}
                         {label}
                       </span>
                       <div className="relative pt-1 w-full">
                         <Progress value={value} color={color} />{" "}
-                        {/* Pass the color and value */}
                       </div>
                     </div>
                   ))}
@@ -258,9 +253,8 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Syllabus Wise Analysis Section */}
+        {/* Quick Statistics Section */}
         <div className="col-span-6 row-span-1 rounded-lg p-4">
-          {/* Placeholder for Skill Test Info */}
           <div className="h-full w-full animate-pulse">
             <figure
               className={cn(
@@ -271,15 +265,13 @@ const Dashboard = () => {
               )}
             >
               <div className="flex flex-col items-start gap-6 w-full h-full">
-                {/* Title */}
                 <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white">
                   <span className="text-xl sm:text-2xl font-bold">
                     Quick Statistics
                   </span>
                 </figcaption>
 
-                {/* Progress Bars */}
-                <div className="flex w-full justify-between gap-4">
+                <div className="flex w-full items-center justify-between">
                   {[
                     {
                       label: "Your Rank",
@@ -299,30 +291,28 @@ const Dashboard = () => {
                       color: "green",
                       image: "✅",
                     },
-                  ].map(({ label, value, color, image }, index) => (
-                    <div key={index} className="flex items-center w-full">
-                      {/* Left: Image */}
-                      <div className="bg-gray-300 rounded-full p-4">
-                        {image}
-                      </div>
+                  ].map(({ label, value, image }, index) => (
+                    <React.Fragment key={index}>
+                      <div className="flex items-center w-full justify-center">
+                        <div className="bg-gray-300 rounded-full p-4">
+                          {image}
+                        </div>
 
-                      {/* Right: Content */}
-                      <div className="ml-4 flex flex-col items-start">
-                        <div className="font-black text-2xl text-black">
-                          {value}
-                        </div>{" "}
-                        {/* Value */}
-                        <div className="text-gray-500 text-sm">
-                          {label}
-                        </div>{" "}
-                        {/* Label */}
+                        <div className="ml-4 flex flex-col items-start">
+                          <div className="font-black text-2xl text-black">
+                            {value}
+                          </div>
+                          <div className="text-gray-500 text-sm">{label}</div>
+                        </div>
                       </div>
 
                       {/* Pipe Separator */}
                       {index < 2 && (
-                        <div className="mx-12 text-gray-300 text-5xl">|</div>
+                        <div className="flex justify-center w-full">
+                          <div className="h-16 w-[1px] bg-gray-300"></div>
+                        </div>
                       )}
-                    </div>
+                    </React.Fragment>
                   ))}
                 </div>
               </div>
@@ -341,12 +331,10 @@ const Dashboard = () => {
                 "transform-gpu dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]"
               )}
             >
-              {/* Circle in top-right corner */}
               <div className="absolute top-4 right-4 bg-gray-200 rounded-full h-10 w-10 flex items-center justify-center">
                 <span className="text-sm font-bold text-gray-700">📈</span>
               </div>
 
-              {/* Title and Description */}
               <div className="flex flex-col gap-2 text-left">
                 <figcaption className="text-lg font-medium dark:text-white">
                   <span className="text-xl sm:text-2xl font-bold">
@@ -361,10 +349,8 @@ const Dashboard = () => {
                 </p>
               </div>
 
-              {/* Line Graph */}
               <div className="h-full w-full mt-6">
                 <LineGraph />{" "}
-                {/* This component will now expand to fill the row-span-3 space */}
               </div>
             </figure>
           </div>
@@ -382,9 +368,7 @@ const Dashboard = () => {
               )}
             >
               <div className="flex flex-col justify-between w-full h-full">
-                {/* Top Section */}
                 <div className="flex justify-between items-start">
-                  {/* Left: Question Analysis and Description */}
                   <div>
                     <figcaption className="text-lg font-medium dark:text-white">
                       <span className="text-xl sm:text-2xl font-bold">
@@ -398,7 +382,6 @@ const Dashboard = () => {
                     </div>
                   </div>
 
-                  {/* Right: Score */}
                   <div className="text-right">
                     <div className="text-2xl font-bold text-blue-600">
                       12/15
@@ -406,7 +389,6 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                {/* PieChart */}
                 <div className="flex justify-center items-center flex-grow mt-4">
                   <div className="w-[220px] h-[220px] sm:w-[280px] sm:h-[280px]">
                     <PieChart />
