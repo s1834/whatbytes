@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const scoresSchema = new mongoose.Schema(
   {
     rank: {
-      type: String,
+      type: Number,
       required: [true, "A score must have a rank"],
     },
     percentile: {
-      type: String,
+      type: Number,
       required: [true, "A score must have a percentile"],
     },
     currentScore: {

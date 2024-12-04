@@ -19,46 +19,48 @@ export const UpdateScores = ({ isOpen, onClose }: ModalProps) => {
   const [currentScore, setCurrentScore] = useState("");
   const [score, setScore] = useState<Score | null>(null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<string | null>(null); // To show success/error
+  const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchScore = async () => {
-      setLoading(true);
+    const fetchData = async () => {
       try {
-        const response = await fetch("/api/scores/675034daf90e2caac70c1c4f");
-        const data = await response.json();
-        if (data.data) {
-          setScore(data.data);
-          setRank(data.data.rank);
-          setPercentile(data.data.percentile);
-          setCurrentScore(data.data.currentScore.toString());
+        const response = await fetch("/api/scores");
+        const result = await response.json();
+
+        if (response.ok && result.data?.length > 0) {
+          setScore(result.data[0]); // Set the first score object
+          setRank(result.data[0].rank);
+          setPercentile(result.data[0].percentile);
+          setCurrentScore(result.data[0].currentScore);
+        } else {
+          setMessage("No score data found.");
         }
       } catch (error) {
         console.error("Error fetching score:", error);
-      } finally {
-        setLoading(false);
+        setMessage("Failed to fetch score.");
       }
     };
 
     if (isOpen) {
-      fetchScore();
+      fetchData();
     }
   }, [isOpen]);
 
   const handleSave = async () => {
-    if (!rank || !percentile || !currentScore) {
-      setMessage("All fields are required!");
+    if (!score?._id) {
+      setMessage("No score ID found.");
       return;
     }
 
     try {
       const updatedScore = {
+        id: `${score._id}`,
         rank,
         percentile,
-        currentScore: parseInt(currentScore, 10),
+        currentScore,
       };
 
-      const response = await fetch(`/api/scores/${score?._id}`, {
+      const response = await fetch(`/api/scores?id=${score._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -66,11 +68,14 @@ export const UpdateScores = ({ isOpen, onClose }: ModalProps) => {
         body: JSON.stringify(updatedScore),
       });
 
+      console.log(updatedScore);
+
       if (response.ok) {
         setMessage("Score updated successfully!");
-        setTimeout(onClose, 1500); // Close modal after 1.5 seconds
+        setTimeout(onClose, 1500);
       } else {
-        throw new Error("Failed to update score");
+        const errorData = await response.json();
+        setMessage(`Error: ${errorData.message || "Failed to update score"}`);
       }
     } catch (error) {
       console.error("Error in PUT request:", error);
@@ -102,7 +107,7 @@ export const UpdateScores = ({ isOpen, onClose }: ModalProps) => {
               <p>Loading...</p>
             ) : (
               <div className="space-y-6">
-                {score && (
+                {/* {score && (
                   <div className="mb-4">
                     <h3 className="text-xl font-semibold">Current Score</h3>
                     <p>
@@ -115,7 +120,7 @@ export const UpdateScores = ({ isOpen, onClose }: ModalProps) => {
                       <b>Current Score:</b> {score.currentScore}
                     </p>
                   </div>
-                )}
+                )} */}
 
                 {/* Rank */}
                 <div className="flex items-center gap-4">

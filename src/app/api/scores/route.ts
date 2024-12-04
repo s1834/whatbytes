@@ -4,17 +4,94 @@ import Scores from "@/utils/models/scores.models";
 
 DBInstance();
 
+// export async function GET(req: Request) {
+//   try {
+//     const scoresData = await Scores.find();
+
+//     if (scoresData.length > 0) {
+//       return NextResponse.json({
+//         message: "GET Success",
+//         data: scoresData,
+//       });
+//     } else {
+//       return NextResponse.json({ message: "No Scores found" }, { status: 404 });
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     return NextResponse.json(
+//       { message: "Internal server error" },
+//       { status: 500 }
+//     );
+//   }
+// }
+
+// export async function GET(req: Request) {
+//   try {
+//     // Extract the 'id' from the URL query parameters
+//     const { searchParams } = new URL(req.url);
+//     const id = searchParams.get("id"); // Assuming the ID is passed as a query parameter, e.g., ?id=6750ae3e829475fbb6fc2e68
+
+//     if (!id) {
+//       return NextResponse.json(
+//         { message: "ID parameter is required" },
+//         { status: 400 }
+//       );
+//     }
+
+//     const scoreData = await Scores.findById(id);
+
+//     if (scoreData) {
+//       return NextResponse.json({
+//         message: "GET Success",
+//         data: scoreData,
+//       });
+//     } else {
+//       return NextResponse.json({ message: "Score not found" }, { status: 404 });
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     return NextResponse.json(
+//       { message: "Internal server error" },
+//       { status: 500 }
+//     );
+//   }
+// }
+
 export async function GET(req: Request) {
   try {
-    const scoresData = await Scores.find();
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
 
-    if (scoresData.length > 0) {
-      return NextResponse.json({
-        message: "GET Success",
-        data: scoresData,
-      });
+    if (id) {
+      // Fetch by ID
+      const scoreData = await Scores.findById(id);
+
+      if (scoreData) {
+        return NextResponse.json({
+          message: "GET Success",
+          data: scoreData,
+        });
+      } else {
+        return NextResponse.json(
+          { message: "Score not found" },
+          { status: 404 }
+        );
+      }
     } else {
-      return NextResponse.json({ message: "No Scores found" }, { status: 404 });
+      // Fetch all scores
+      const scoresData = await Scores.find();
+
+      if (scoresData.length > 0) {
+        return NextResponse.json({
+          message: "GET Success",
+          data: scoresData,
+        });
+      } else {
+        return NextResponse.json(
+          { message: "No Scores found" },
+          { status: 404 }
+        );
+      }
     }
   } catch (err) {
     console.error(err);
@@ -30,9 +107,9 @@ export async function PUT(req: Request) {
     const body = await req.json();
     const { id, rank, percentile, currentScore } = body;
 
-    if (!id) {
+    if (!id || !rank || !percentile || typeof currentScore !== "number") {
       return NextResponse.json(
-        { message: "ID is required for updating a score" },
+        { message: "Invalid or missing fields" },
         { status: 400 }
       );
     }
