@@ -28,7 +28,7 @@ export const UpdateScores = ({ isOpen, onClose }: ModalProps) => {
         const result = await response.json();
 
         if (response.ok && result.data?.length > 0) {
-          setScore(result.data[0]); // Set the first score object
+          setScore(result.data[0]);
           setRank(result.data[0].rank);
           setPercentile(result.data[0].percentile);
           setCurrentScore(result.data[0].currentScore);
@@ -107,21 +107,6 @@ export const UpdateScores = ({ isOpen, onClose }: ModalProps) => {
               <p>Loading...</p>
             ) : (
               <div className="space-y-6">
-                {/* {score && (
-                  <div className="mb-4">
-                    <h3 className="text-xl font-semibold">Current Score</h3>
-                    <p>
-                      <b>Rank:</b> {score.rank}
-                    </p>
-                    <p>
-                      <b>Percentile:</b> {score.percentile}
-                    </p>
-                    <p>
-                      <b>Current Score:</b> {score.currentScore}
-                    </p>
-                  </div>
-                )} */}
-
                 {/* Rank */}
                 <div className="flex items-center gap-4">
                   <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center">

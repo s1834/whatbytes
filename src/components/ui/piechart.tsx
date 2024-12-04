@@ -32,7 +32,7 @@ export function PieChart() {
       const { width, height } = chart;
       const ctx = chart.ctx;
       ctx.save();
-      ctx.font = "20px Arial";
+      ctx.font = "48px Arial";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillStyle = "#000";
@@ -48,7 +48,7 @@ export function PieChart() {
         console.log("API Response:", response.data);
 
         const { currentScore } = response.data.data[0];
-        const totalQuestions = 15; // Define totalQuestions or get it from API
+        const totalQuestions = 15;
 
         const correct = currentScore || 0;
         const incorrect = totalQuestions - correct;

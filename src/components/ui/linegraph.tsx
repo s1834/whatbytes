@@ -10,7 +10,7 @@ import {
   ChartEvent,
   ActiveElement,
   TooltipItem,
-  ChartOptions, // Import ChartOptions directly
+  ChartOptions,
 } from "chart.js";
 import annotationPlugin from "chartjs-plugin-annotation";
 
@@ -24,7 +24,11 @@ ChartJS.register(
   annotationPlugin
 );
 
-export function LineGraph() {
+interface LineGraphProps {
+  percentile: number;
+}
+
+export function LineGraph({ percentile }: LineGraphProps) {
   const data = {
     labels: ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"],
     datasets: [
@@ -45,7 +49,7 @@ export function LineGraph() {
     ],
   };
 
-  // Use ChartOptions directly
+  // ChartOptions directly
   const options: ChartOptions<"line"> = {
     responsive: true,
     scales: {
@@ -82,7 +86,7 @@ export function LineGraph() {
           userPercentile: {
             type: "line",
             scaleID: "x",
-            value: 1.2,
+            value: percentile / 10,
             borderColor: "red",
             borderWidth: 2,
             label: {

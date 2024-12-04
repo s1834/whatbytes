@@ -163,7 +163,6 @@ const Dashboard = () => {
         }
       } catch (error) {
         console.error("Error fetching scores:", error);
-        // Optionally update UI to show an error message or fallback UI
       }
     };
 
@@ -176,41 +175,41 @@ const Dashboard = () => {
   const handleCloseModal = () => setModalOpen(false);
   return (
     <div className="flex-1 overflow-y-auto p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-4 w-full h-full">
-      {/* Grid layout */}
       <div className="grid grid-cols-12 grid-rows-6 gap-4 flex-1">
         {/* HTML Section */}
         <div className="col-span-6 row-span-1 rounded-lg p-4">
           <div className="h-full w-full animate-pulse">
             <figure
               className={cn(
-                "relative mx-auto min-h-fit w-full h-full cursor-pointer overflow-hidden rounded-2xl p-4",
+                "relative mx-auto w-full h-full cursor-pointer overflow-hidden rounded-2xl p-4",
                 "transition-all duration-200 ease-in-out hover:scale-[103%]",
-                "bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]",
-                "transform-gpu dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]"
+                "bg-white shadow-sm dark:bg-transparent dark:backdrop-blur-md dark:border dark:border-white/10",
+                "transform-gpu dark:shadow-[inset_0_-20px_80px_-20px_rgba(255,255,255,0.12)]"
               )}
             >
-              <div className="flex flex-row items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-center gap-3">
                 <div className="flex size-30 items-center justify-center rounded-2xl">
                   <Image
                     src="/html-logo.svg"
                     alt="HTML Logo"
-                    width={98}
-                    height={98}
+                    width={80}
+                    height={80}
+                    className="sm:w-24 sm:h-24 w-20 h-20"
                   />
                 </div>
-                <div className="flex flex-col overflow-hidden">
-                  <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white">
+                <div className="flex flex-col overflow-hidden text-center sm:text-left">
+                  <figcaption className="flex flex-wrap justify-center sm:justify-start items-center text-lg font-medium dark:text-white">
                     <span className="text-xl sm:text-2xl font-bold">
                       Hyper Text Markup Language
                     </span>
                   </figcaption>
                   <p className="text-sm font-normal dark:text-white/60">
-                    Questions: 08 l Duration: 15 mins | Submitted on 5 June 2021
+                    Questions: 08 | Duration: 15 mins | Submitted on 5 June 2021
                   </p>
                 </div>
               </div>
               <button
-                className="absolute top-1/2 right-4 transform -translate-y-1/2 px-6 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-900 transition-colors"
+                className="absolute top-1/2 right-4 transform -translate-y-1/2 px-4 sm:px-6 py-2 sm:py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-900 transition-colors text-sm sm:text-base"
                 onClick={handleOpenModal}
               >
                 Update
@@ -311,7 +310,7 @@ const Dashboard = () => {
                     },
                     {
                       label: "Correct Answers",
-                      value: `${scores.currentScore}/15`,
+                      value: `${scores.currentScore} / 15`,
                       color: "green",
                       image: "✅",
                     },
@@ -374,7 +373,7 @@ const Dashboard = () => {
               </div>
 
               <div className="h-full w-full mt-6">
-                <LineGraph />
+                <LineGraph percentile={scores.percentile} />
               </div>
             </figure>
           </div>
@@ -400,8 +399,11 @@ const Dashboard = () => {
                       </span>
                     </figcaption>
                     <div className="text-sm text-gray-500 mt-2">
-                      <b>You scored 10 questions correct out of 15.</b> However,
-                      it still <br />
+                      <b>
+                        You scored {scores.currentScore} questions correct out
+                        of 15.
+                      </b>{" "}
+                      However, it still <br />
                       needs some improvements.
                     </div>
                   </div>
